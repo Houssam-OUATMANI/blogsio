@@ -9,7 +9,9 @@
     <title>@yield("title")</title>
 </head>
 <body>
+    @include("components.nav")
     <div class="container">
+        @include("components.flash")
         @yield("body")
     </div>
 </body>
