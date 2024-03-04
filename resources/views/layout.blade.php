@@ -10,7 +10,7 @@
 </head>
 <body>
     @include("components.nav")
-    <div class="container">
+    <div class="container" layout-main>
         @include("components.flash")
         @yield("body")
     </div>

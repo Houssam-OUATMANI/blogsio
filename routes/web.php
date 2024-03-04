@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\PostController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -26,11 +27,22 @@ Route::get('/', [HomeController::class, "index"])->name("home");
 
 // TODO FIX url prefix
 
-Route::controller(AuthController::class)->group(function () {
-    Route::get("/register",  "register")->name("auth.register");
-    Route::post("/register",  "handleRegister");
-    Route::get("/login","login")->name("auth.login");
-    Route::post("/login", "handleLogin");
-    Route::delete("/logout",  "logout")->name("auth.logout");
-})->prefix("auth");
+Route::controller(AuthController::class)->prefix("/auth")->group(function () {
+    Route::get("/register",  "register")->name("auth.register")->middleware("guest");
+    Route::post("/register",  "handleRegister")->middleware("guest");
+    Route::get("/login","login")->name("auth.login")->middleware("guest");
+    Route::post("/login", "handleLogin")->middleware("guest");
+    Route::delete("/logout",  "logout")->name("auth.logout")->middleware("auth");
+});
 
+
+Route::controller(PostController::class)->group( function (){
+
+    Route::get("/posts/create", "create")->name("post.create")->middleware("auth");
+    Route::post("/posts/create", "store")->middleware("auth");
+    Route::get("/posts/{post}", "show")->name("post.show");
+    Route::get("/posts/{post}/edit", "edit")->name("post.edit");
+    Route::post("/posts/{post}/update", "update")->name("post.update");
+    Route::delete("/posts/{post}/destroy", "destroy")->name("post.destroy");
+
+});
