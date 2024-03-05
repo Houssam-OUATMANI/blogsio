@@ -33,6 +33,11 @@ Route::controller(AuthController::class)->prefix("/auth")->group(function () {
     Route::get("/login","login")->name("auth.login")->middleware("guest");
     Route::post("/login", "handleLogin")->middleware("guest");
     Route::delete("/logout",  "logout")->name("auth.logout")->middleware("auth");
+    Route::get("/forgot-password", "resetPassword")->middleware("guest")->name("password.request");
+    Route::post("/forgot-password", "forgotPassword")->middleware("guest");
+    Route::get('/reset-password/{token}', "resetPasswordForm")->middleware('guest')->name('password.reset');
+    Route::post('/reset-password', "handleResetPassword")->middleware('guest')->name('password.update');
+
 });
 
 

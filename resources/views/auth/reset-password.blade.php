@@ -4,9 +4,9 @@
 
 @section("body")
 
-    <h1 class="text-center">page de connexion</h1>
+    <h1 class="text-center">RESET PASSWORD</h1>
 
-    <form action="" method="post">
+    <form action="{{route('password.update')}}" method="post">
         @csrf
         @include("components.input", [
                                       "name" => "email",
@@ -19,6 +19,12 @@
                                       "type" => "password",
                                       "value" => old("password")
                                       ])
+        @include("components.input", ["name" => "password_confirmation",
+                                     "label" => "Mot de passe confirmartion",
+                                     "type" => "password",
+                                     "value" => old("password")
+                                     ])
+        <input type="hidden" name="token" value="{{$token}}">
         <button class="btn btn-outline-success" type="submit">Connexion</button>
 
     </form>
