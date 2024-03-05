@@ -37,12 +37,11 @@ Route::controller(AuthController::class)->prefix("/auth")->group(function () {
 
 
 Route::controller(PostController::class)->group( function (){
-
     Route::get("/posts/create", "create")->name("post.create")->middleware("auth");
     Route::post("/posts/create", "store")->middleware("auth");
     Route::get("/posts/{post}", "show")->name("post.show");
-    Route::get("/posts/{post}/edit", "edit")->name("post.edit");
-    Route::post("/posts/{post}/update", "update")->name("post.update");
-    Route::delete("/posts/{post}/destroy", "destroy")->name("post.destroy");
+    Route::get("/posts/{post}/edit", "edit")->name("post.edit")->middleware("auth");
+    Route::post("/posts/{post}/update", "update")->name("post.update")->middleware("auth");
+    Route::delete("/posts/{post}/destroy", "destroy")->name("post.destroy")->middleware("auth");
 
 });

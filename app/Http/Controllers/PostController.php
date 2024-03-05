@@ -54,6 +54,7 @@ class PostController extends Controller
      */
     public function edit(Post $post)
     {
+        $this->authorize("update", $post);
         return view("post.edit", compact("post"));
     }
 
@@ -62,6 +63,7 @@ class PostController extends Controller
      */
     public function update(Request $request, Post $post)
     {
+        $this->authorize("update", $post);
         $image =   $request->file("image_path");
         $image_path = null;
         if($image) {
@@ -93,6 +95,7 @@ class PostController extends Controller
      */
     public function destroy(Post $post)
     {
+        $this->authorize("destroy", $post);
         Storage::disk("public")->delete($post->image_path);
         $post->delete();
         return redirect()->route("home")->with("success", "Publication supprimer");

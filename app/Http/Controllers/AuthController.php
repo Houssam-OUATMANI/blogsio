@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RegisterUserRequest;
+use App\Mail\AuthConfirmation;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 
 class AuthController extends Controller
 {
@@ -15,6 +17,11 @@ class AuthController extends Controller
     }
     public function handleRegister(RegisterUserRequest $request ) {
         User::query()->create($request->validated());
+        $email = $request->validated("email");
+        $username = $request->validated("username");
+        //Mail::to(new AuthConfirmation($email, $username))->send();
+        Mail::send(new AuthConfirmation($email, $username));
+
         return redirect()->route("auth.login")->with("success", "Inscription OK");
         // return redirect()->to("/auth/login")->with("success", "Inscription OK");
     }

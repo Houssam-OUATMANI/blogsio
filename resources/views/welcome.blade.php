@@ -16,13 +16,15 @@
             <p>{{$post->content}}</p>
             <p>Ecrit pat {{$post->user->username}}</p>
             <a href="{{ route("post.show", $post)  }}">Lire la suite</a>
-            <a href="{{route("post.edit", $post)}}">Editer</a>
 
-            <form action="{{route("post.destroy", $post)}}" method="post">
-                @csrf
-                @method("DELETE")
-                <button type="submit">Supprimer</button>
-            </form>
+            @can("update", $post)
+                <a href="{{route("post.edit", $post)}}">Editer</a>
+                <form action="{{route("post.destroy", $post)}}" method="post">
+                    @csrf
+                    @method("DELETE")
+                    <button type="submit">Supprimer</button>
+                </form>
+            @endcan
 
         </div>
     @endforeach
